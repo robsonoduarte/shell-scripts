@@ -1,0 +1,60 @@
+#!/bin/bash
+#
+# weblogic
+#
+
+
+# Source function library.
+. /etc/init.d/functions
+
+
+prog="weblogic"
+LOCKFILE=/var/lock/subsys/$prog
+
+
+
+start() {
+        echo -n "Starting $prog: "
+        daemon sudo sh /opt/wls12130/user_projects/domains/mydomain/startWebLogic.sh
+        RETVAL=$?
+        [ $RETVAL -eq 0 ] && touch $LOCKFILE
+        echo
+        return $RETVAL
+}
+
+stop() {
+        echo -n "Shutting down $prog: "
+       
+        RETVAL=$?
+        [ $RETVAL -eq 0 ] && rm -f $LOCKFILE
+        echo
+        return $RETVAL
+}
+
+status() {
+        echo -n "Checking $prog status: "
+        
+        RETVAL=$?
+        return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac
+exit $RETVAL
