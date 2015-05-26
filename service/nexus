@@ -5,12 +5,10 @@
 
 
 # Source function library.
-. /etc/init.d/functions
+.  /lib/lsb/init-functions
 
 
 prog="nexus"
-LOCKFILE=/var/lock/subsys/$prog
-
 
 
 start() {
